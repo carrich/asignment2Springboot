@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<h1></h1>
+<p th:text="${class.name}"></p>
+<h1>List Student</h1>
+<ul>
+    <form th:action="@{/class/check}">
+    <li th:each="student : ${students}">
+        <span th:text="${student.name} + ' - ' + ${student.studentId}"></span>
+
+
+<!--        Checkbox: <input type="checkbox" id="myCheck" th:value="ag" onclick="myFunction()">-->
+<!--        Checkbox: <input type="checkbox" class="myCheck" value="val1" th:value="${student.studentId}" >-->
+        Checkbox: <input type="checkbox" class="myCheck" value="val2" th:value="${student.studentId}" >
+<!--        <input type="int" id="text" name="check" value="0"></input>-->
+    </li>
+        <input type="submit" value="submit">
+    </form>
+    <button onclick="myFunction()">Test</button>
+</ul>
+
+
+<!--<a th:href="@{/admin/flowers}">Home</a>-->
+
+<script>
+    var data = [String];
+    function myFunction() {
+        var checkBox = document.getElementsByClassName('myCheck');
+
+     for (j=0;j<checkBox.length;j++){
+         if (checkBox[j].checked == true) {
+             var check = checkBox[j].value;
+             data.push(checkBox[j].value);
+
+             }
+
+         }
+        for (i = 0; i < data.length; i++) {
+            console.log(data[i])
+     }
+        $.ajax({
+            contentType: "application/json",
+            type: "POST",
+            data: JSON.stringify(data),
+            url: "/class/appUrl",
+            dataType: "json",
+            success: function(result){
+                $(element).append(result);
+            }
+
+        });
+
+        }
+
+</script>
+
+</body>
+
+</html>
